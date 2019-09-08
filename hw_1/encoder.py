@@ -24,15 +24,18 @@ def processFile(filename):
         soup = Soup(decoded, 'xml')
         docs = []
         for doc in soup.find_all('document'):
-            url = base64.b64decode(doc.docURL.text).decode('cp1251')
-            document = Document(url)
-            graph[url] = []
-            content = base64.b64decode(doc.content.text).decode('cp1251')
-            htmlSize = len(content)
-            contentSoup = Soup(content, 'html.parser')
-            augmentGraph(graph, contentSoup, url)
-            s = getContent(contentSoup)
-            docs.append(gatherStats(document, s, htmlSize))
+            try:
+                url = base64.b64decode(doc.docURL.text).decode('cp1251')
+                document = Document(url)
+                graph[url] = []
+                content = base64.b64decode(doc.content.text).decode('cp1251')
+                htmlSize = len(content.encode('utf-8'))
+                contentSoup = Soup(content, 'lxml')
+                augmentGraph(graph, contentSoup, url)
+                s = getContent(contentSoup)
+                docs.append(gatherStats(document, s, htmlSize))
+            except Exception as e:
+                print(e)
         return docs
 
 
