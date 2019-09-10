@@ -1,5 +1,6 @@
 import base64
 import re
+from multiprocessing.pool import Pool
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,7 +19,10 @@ class Document:
         self.textToHTMLRatio = 0
 
 
-def processFile(filename):
+def processFile(i):
+    prefix = '../byweb_for_course/byweb.'
+    suffix = '.xml'
+    filename = prefix + str(i) + suffix
     with open(filename, 'rb') as f:
         decoded = f.read().decode('cp1251')
         soup = Soup(decoded, 'xml')
@@ -67,12 +71,10 @@ def plotStats(stats, filename):
 
 
 if __name__ == '__main__':
-    prefix = '../byweb_for_course/byweb.'
-    suffix = '.xml'
     graph = defaultdict(list)
     docs = []
-    for i in range(10):
-        docs += processFile(prefix + str(i) + suffix)
+    with Pool(5) as p:
+        docs += p.map(processFile, range(10))
     print('Documents Count: ' + str(len(docs)))
     print('Mean Words Count: ' + str(np.mean([doc.wordsCount for doc in docs])))
     print('Mean Bytes Count: ' + str(np.mean([doc.bytesCount for doc in docs])))
