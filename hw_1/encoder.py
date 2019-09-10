@@ -1,5 +1,8 @@
 import base64
 import re
+from urllib.parse import urljoin
+from itertools import chain
+from multiprocessing.pool import Pool
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,6 +12,8 @@ import csv
 from collections import defaultdict
 from bs4 import BeautifulSoup as Soup
 from pymystem3 import Mystem
+
+from tqdm import tqdm
 
 sns.set()
 
@@ -28,22 +33,25 @@ class Document:
         self.stopWordsCount = 0
         self.latWordsCount = 0
         self.wordsLenSum = 0
+        self.hrefs = list()
 
 
-def processFile(filename, stopWords, dictionary):
+def processFile(i, stopWords, dictionary):
+    prefix = '../byweb_for_course/byweb.'
+    suffix = '.xml'
+    filename = prefix + str(i) + suffix
     with open(filename, 'rb') as f:
         decoded = f.read().decode('cp1251')
         soup = Soup(decoded, 'xml')
         docs = []
-        for doc in soup.find_all('document'):
+        for doc in tqdm(soup.find_all('document')):
             try:
                 url = base64.b64decode(doc.docURL.text).decode('cp1251')
                 document = Document(url)
-                graph[url] = []
                 content = base64.b64decode(doc.content.text).decode('cp1251')
                 htmlSize = len(content.encode('utf-8'))
                 contentSoup = Soup(content, 'lxml')
-                augmentGraph(graph, contentSoup, url)
+                augmentGraph(document, contentSoup, url)
                 s = getContent(contentSoup)
                 docs.append(gatherStats(document, s, htmlSize, stopWords, dictionary))
                 break
@@ -52,14 +60,14 @@ def processFile(filename, stopWords, dictionary):
         return docs
 
 
-def augmentGraph(graph, contentSoup, url):
+def augmentGraph(document, contentSoup, url):
     for next in contentSoup.find_all('a'):
-        if 'href' in next.attrs and next['href'].startswith('http'):
-            graph[url].append(next['href'])
+        if 'href' in next.attrs:
+            document.hrefs.append(urljoin(url, next['href']))
 
 
 def getContent(contentSoup):
-    s = contentSoup.get_text()
+    s = contentSoup.get_text(" ")
     s = re.sub("(<!--.*?-->)", "", s, flags=re.DOTALL)
     return re.sub("(//<!\\[CDATA.*?]>)", "", s, flags=re.DOTALL)
 
@@ -115,16 +123,27 @@ def readStopWords():
     return words
 
 
+def writeGraphToFile(graph):
+    with open("./graph.csv", "w") as f:
+        for site, hrefs in graph.items():
+            for href in hrefs:
+                f.write(site)
+                f.write(';')
+                f.write(href)
+                f.write('\n')
+
+
 if __name__ == '__main__':
-    prefix = '../../byweb_for_course/byweb.'
-    suffix = '.xml'
-    graph = defaultdict(list)
     dictionary = defaultdict(DictionaryStat)
     stopWords = readStopWords()
-
-    docs = []
-    for i in range(1):
-        docs += processFile(prefix + str(i) + suffix, stopWords, dictionary)
+    processFileBinded = lambda i: processFile(i, stopWords, dictionary)
+    with Pool(5) as p:
+        docs = p.map(processFileBinded, range(10))
+        docs = list(chain(*docs))
+    graph = defaultdict(list)
+    for doc in docs:
+        for href in doc.hrefs:
+            graph[doc.docURL].append(href)
 
     docsCount = len(docs)
     wordsCount = np.sum([doc.wordsCount for doc in docs])
@@ -155,3 +174,4 @@ if __name__ == '__main__':
 
     plotStats([doc.wordsCount for doc in docs], 'wordsCount.png')
     plotStats([doc.bytesCount for doc in docs], 'bytesCount.png')
+    writeGraphToFile(graph)
