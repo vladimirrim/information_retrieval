@@ -1,5 +1,6 @@
 import base64
 import re
+from itertools import chain
 from multiprocessing.pool import Pool
 
 import matplotlib.pyplot as plt
@@ -31,11 +32,11 @@ def processFile(i):
             try:
                 url = base64.b64decode(doc.docURL.text).decode('cp1251')
                 document = Document(url)
-                graph[url] = []
+                #graph[url] = []
                 content = base64.b64decode(doc.content.text).decode('cp1251')
                 htmlSize = len(content.encode('utf-8'))
                 contentSoup = Soup(content, 'lxml')
-                augmentGraph(graph, contentSoup, url)
+                #augmentGraph(graph, contentSoup, url)
                 s = getContent(contentSoup)
                 docs.append(gatherStats(document, s, htmlSize))
             except Exception as e:
@@ -50,7 +51,7 @@ def augmentGraph(graph, contentSoup, url):
 
 
 def getContent(contentSoup):
-    s = contentSoup.get_text()
+    s = contentSoup.get_text(" ")
     s = re.sub("(<!--.*?-->)", "", s, flags=re.DOTALL)
     return re.sub("(//<!\\[CDATA.*?]>)", "", s, flags=re.DOTALL)
 
@@ -74,7 +75,8 @@ if __name__ == '__main__':
     graph = defaultdict(list)
     docs = []
     with Pool(5) as p:
-        docs += p.map(processFile, range(10))
+        docs = p.map(processFile, range(10))
+        docs = list(chain(*docs))
     print('Documents Count: ' + str(len(docs)))
     print('Mean Words Count: ' + str(np.mean([doc.wordsCount for doc in docs])))
     print('Mean Bytes Count: ' + str(np.mean([doc.bytesCount for doc in docs])))
