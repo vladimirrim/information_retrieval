@@ -148,9 +148,6 @@ def processFileBinded(i):
 
 
 if __name__ == '__main__':
-    dictionary = defaultdict(DictionaryStat)
-    stopWords = readStopWords()
-    processFileBinded = lambda i: processFile(i, stopWords, dictionary)
     with Pool(5) as p:
         docs = p.map(processFileBinded, range(10))
         docs = list(chain(*docs))
