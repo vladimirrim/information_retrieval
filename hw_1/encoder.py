@@ -1,5 +1,9 @@
 import base64
 import re
+from urllib.parse import urljoin
+from urllib.parse import urlparse
+from itertools import chain
+from multiprocessing.pool import Pool
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -129,8 +133,8 @@ def readStopWords():
     return words
 
 
-def writeGraphToFile(graph):
-    with open("./graph.csv", "w") as f:
+def writeGraphToFile(graph, file_suffix=''):
+    with open("./graph{}.csv".format(file_suffix), "w") as f:
         for site, hrefs in graph.items():
             for href in hrefs:
                 f.write(site)
@@ -145,6 +149,31 @@ stopWords = readStopWords()
 
 def processFileBinded(i):
     return processFile(i, stopWords, dictionary)
+
+
+def url_to_domain(url):
+    """
+    Example:
+    'http://abc.hostname.com/somethings/anything/' -> hostname.com
+    """
+    return '.'.join(urlparse(url).netloc.split('.')[-2:])
+
+
+def reduce_to_sites_graph(graph):
+    sites_graph = {}
+    for site_url, hrefs in graph.items():
+        site_url = url_to_domain(site_url)
+        sites_graph[site_url] = list(map(lambda e: url_to_domain(e), hrefs))
+    return sites_graph
+
+
+def write_sites_graph(graph):
+    """
+    This function collapses all nodes that belong to one web-site into one node.
+    And returns the graph that consists of web-sites as nodes and shows connections between web-sites.
+    """
+    sites_graph = reduce_to_sites_graph(graph)
+    writeGraphToFile(sites_graph, "_sites")
 
 
 if __name__ == '__main__':
@@ -186,3 +215,4 @@ if __name__ == '__main__':
     plotStats([doc.wordsCount for doc in docs], 'wordsCount.png')
     plotStats([doc.bytesCount for doc in docs], 'bytesCount.png')
     writeGraphToFile(graph)
+    write_sites_graph(graph)
