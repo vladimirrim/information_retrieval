@@ -1,18 +1,16 @@
 import base64
 import re
-from urllib.parse import urljoin
-from itertools import chain
-from multiprocessing.pool import Pool
-
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import csv
-
+from urllib.parse import urljoin
+from itertools import chain
+from multiprocessing.pool import Pool
 from collections import defaultdict
 from bs4 import BeautifulSoup as Soup
 from pymystem3 import Mystem
-
+from threading import Lock
 from tqdm import tqdm
 
 sns.set()
@@ -73,9 +71,11 @@ def getContent(contentSoup):
 
 
 def gatherStats(doc, s, htmlSize, stopWords, dictionary):
-    words = s.split()
+    wordsFull = s.split()
     m = Mystem()
-    words = m.lemmatize(words)
+    words = [l
+             for w in wordsFull[:10]
+             for l in m.lemmatize(w)]
     uniqueWords = np.unique(words)
     isInStopWords = lambda word: 1 if word in stopWords else 0
 
@@ -84,10 +84,13 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     stopWordsCount = np.sum(np.apply_along_axis(isInStopWords, 0, words))
     latWordsCount = np.sum(np.apply_along_axis(isLat, 0, words))
     wordsLenSum = np.sum(np.apply_along_axis(len, 0, words))
+
+    gatherStats.dictLock.acquire()
     for word in words:
         dictionary[word].cf += 1
     for word in uniqueWords:
         dictionary[word].df += 1
+    gatherStats.dictLock.release()
 
     doc.wordsCount = wordsCount
     doc.bytesCount = bytesCount
@@ -97,6 +100,9 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     doc.wordsLenSum = wordsLenSum
 
     return doc
+
+
+gatherStats.dictLock = Lock()
 
 
 def isLat(word):
@@ -133,6 +139,14 @@ def writeGraphToFile(graph):
                 f.write('\n')
 
 
+dictionary = defaultdict(DictionaryStat)
+stopWords = readStopWords()
+
+
+def processFileBinded(i):
+    return processFile(i, stopWords, dictionary)
+
+
 if __name__ == '__main__':
     dictionary = defaultdict(DictionaryStat)
     stopWords = readStopWords()
@@ -159,7 +173,7 @@ if __name__ == '__main__':
     print('Latin Words Rate: ' + str(np.sum([doc.latWordsCount for doc in docs])
                                      / wordsCount))
 
-    dictItems = np.array(dictionary.items(), dtype=[('word', 'S'), ('cf', 'int'), ('df', 'int')])
+    dictItems = np.array(list(dictionary.items()), dtype=[('word', 'S'), ('cf', 'int'), ('df', 'int')])
     cfStats = np.argsort(dictItems, order='cf')
     dfStats = np.argsort(dictItems, order='df')
 
