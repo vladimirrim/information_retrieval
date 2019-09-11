@@ -209,14 +209,19 @@ if __name__ == '__main__':
     cfStats = np.argsort(dictItems, order='cf')
     dfStats = np.argsort(dictItems, order='df')
 
+    dfTop = dictItems[dfStats][:10]
+    idfTop = [(item[0], docsCount / item[2]) for item in dfTop]
+    dfTail = dictItems[dfStats][-10::-1]
+    idfTail = [(item[0], docsCount / item[2]) for item in dfTail]
+
     print('CF Top: ')
-    print(dictItems[cfStats][:10])
+    print(dictItems[cfStats][-10::-1])
     print('CF Tail: ')
-    print(dictItems[cfStats][-10:])
+    print(dictItems[cfStats][:10])
     print('IDF Top: ')
-    print(dictItems[dfStats][-10:])
+    print(idfTop)
     print('IDF Tail: ')
-    print(dictItems[dfStats][:10])
+    print(idfTail)
 
     plotStats([doc.wordsCount for doc in docs], 'wordsCount.png')
     plotStats([doc.bytesCount for doc in docs], 'bytesCount.png')
