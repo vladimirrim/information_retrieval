@@ -130,7 +130,7 @@ def plotStats(stats, filename):
 def readStopWords():
     words = set()
 
-    with open("../../stopwords/russian") as f:
+    with open("../../stopwords/russian", encoding='utf-8') as f:
         reader = csv.reader(f)
         for row in reader:
             words.add(row[0])
