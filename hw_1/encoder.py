@@ -76,7 +76,8 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     m = Mystem()
     words = np.array([])
 
-    for w in wordsFull[:10]:
+    # for w in wordsFull[:10]:
+    for w in wordsFull:
         lemmas = np.array(m.lemmatize(w))
         words = np.append(words, lemmas[lemmas != "\n"])
 
@@ -146,14 +147,6 @@ def writeGraphToFile(graph, file_suffix=''):
                 f.write('\n')
 
 
-dictionary = defaultdict(DictionaryStat)
-stopWords = readStopWords()
-
-
-def processFileBinded(i):
-    return processFile(i, stopWords, dictionary)
-
-
 def url_to_domain(url):
     """
     Example:
@@ -185,6 +178,14 @@ def plotWordsRank(cfTop):
     y = [math.log2(a[1]) for a in cfTop]
     plt.plot(x, y)
     plt.savefig('wordsRank.png')
+
+
+dictionary = defaultdict(DictionaryStat)
+stopWords = readStopWords()
+
+
+def processFileBinded(i):
+    return processFile(i, stopWords, dictionary)
 
 
 if __name__ == '__main__':
