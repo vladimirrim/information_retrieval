@@ -56,7 +56,6 @@ def processFile(i, stopWords, dictionary):
                 augmentGraph(document, contentSoup, url)
                 s = getContent(contentSoup)
                 docs.append(gatherStats(document, s, htmlSize, stopWords, dictionary))
-                break
             except Exception as e:
                 print(e)
         return docs
@@ -78,20 +77,23 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     wordsFull = s.split()
     m = Mystem()
     words = [l
-             for w in wordsFull[:10]
+             for w in wordsFull
              for l in m.lemmatize(w)]
     uniqueWords = np.unique(words)
     isInStopWords = lambda word: 1 if word in stopWords else 0
 
     wordsCount = len(words)
     bytesCount = len(s.encode('utf-8'))
-    stopWordsCount = np.sum(np.apply_along_axis(isInStopWords, 0, words))
-    latWordsCount = np.sum(np.apply_along_axis(isLat, 0, words))
-    wordsLenSum = np.sum(np.apply_along_axis(len, 0, words))
+    stopWordsCount = 0
+    latWordsCount = 0
+    wordsLenSum = 0
 
     gatherStats.dictLock.acquire()
     for word in words:
         dictionary[word].cf += 1
+        stopWordsCount += 1 if isInStopWords(word) else 0
+        latWordsCount += 1 if isLat(word) else 0
+        wordsLenSum += len(words)
     for word in uniqueWords:
         dictionary[word].df += 1
     gatherStats.dictLock.release()
@@ -199,7 +201,8 @@ if __name__ == '__main__':
     print('Latin Words Rate: ' + str(np.sum([doc.latWordsCount for doc in docs])
                                      / wordsCount))
 
-    dictItems = np.array(list(dictionary.items()), dtype=[('word', 'S'), ('cf', 'int'), ('df', 'int')])
+    dictItems = np.array(list([(item[0], item[1].cf, item[1].df) for item in dictionary.items()]),
+                         dtype=[('word', object), ('cf', int), ('df', int)])
     cfStats = np.argsort(dictItems, order='cf')
     dfStats = np.argsort(dictItems, order='df')
 
