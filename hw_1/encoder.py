@@ -83,7 +83,7 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
         words = np.append(words, lemmas[lemmas != "\n"])
 
     uniqueWords = np.unique(words)
-    isInStopWords = lambda word: 1 if word in stopWords else 0
+    isInStopWords = lambda word: word in stopWords
 
     wordsCount = len(words)
     bytesCount = len(s.encode('utf-8'))
@@ -96,7 +96,7 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
         dictionary[word].cf += 1
         stopWordsCount += 1 if isInStopWords(word) else 0
         latWordsCount += 1 if isLat(word) else 0
-        wordsLenSum += len(words)
+        wordsLenSum += len(word)
     for word in uniqueWords:
         dictionary[word].df += 1
     gatherStats.dictLock.release()
