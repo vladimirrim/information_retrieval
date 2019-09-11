@@ -1,13 +1,11 @@
 import base64
 import re
-from urllib.parse import urljoin
 from urllib.parse import urlparse
-from itertools import chain
-from multiprocessing.pool import Pool
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import csv
+import math
 from urllib.parse import urljoin
 from itertools import chain
 from multiprocessing.pool import Pool
@@ -181,6 +179,14 @@ def write_sites_graph(graph):
     writeGraphToFile(sites_graph, "_sites")
 
 
+def plotWordsRank(cfTop):
+    plt.clf()
+    x = range(len(cfTop))
+    y = [math.log2(a[1]) for a in cfTop]
+    plt.plot(x, y)
+    plt.savefig('wordsRank.png')
+
+
 if __name__ == '__main__':
     with Pool(5) as p:
         docs = p.map(processFileBinded, range(10))
@@ -204,20 +210,23 @@ if __name__ == '__main__':
     print('Latin Words Rate: ' + str(np.sum([doc.latWordsCount for doc in docs])
                                      / wordsCount))
 
+    topCnt = 10
+
     dictItems = np.array(list([(item[0], item[1].cf, item[1].df) for item in dictionary.items()]),
                          dtype=[('word', object), ('cf', int), ('df', int)])
     cfStats = np.argsort(dictItems, order='cf')
     dfStats = np.argsort(dictItems, order='df')
-
-    dfTop = dictItems[dfStats][:10]
+    cfTop = dictItems[cfStats][-topCnt:][::-1]
+    cfTail = dictItems[cfStats][:topCnt]
+    dfTop = dictItems[dfStats][:topCnt]
+    dfTail = dictItems[dfStats][-topCnt:][::-1]
     idfTop = [(item[0], docsCount / item[2]) for item in dfTop]
-    dfTail = dictItems[dfStats][-10::-1]
     idfTail = [(item[0], docsCount / item[2]) for item in dfTail]
 
     print('CF Top: ')
-    print(dictItems[cfStats][-10::-1])
+    print(cfTop)
     print('CF Tail: ')
-    print(dictItems[cfStats][:10])
+    print(cfTail)
     print('IDF Top: ')
     print(idfTop)
     print('IDF Tail: ')
@@ -227,3 +236,4 @@ if __name__ == '__main__':
     plotStats([doc.bytesCount for doc in docs], 'bytesCount.png')
     writeGraphToFile(graph)
     write_sites_graph(graph)
+    plotWordsRank(cfTop)
