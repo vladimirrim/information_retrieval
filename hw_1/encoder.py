@@ -9,6 +9,7 @@ import math
 from urllib.parse import urljoin
 from itertools import chain
 from multiprocessing.pool import Pool
+from multiprocessing import Manager
 from collections import defaultdict
 from bs4 import BeautifulSoup as Soup
 from pymystem3 import Mystem
@@ -90,15 +91,18 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     latWordsCount = 0
     wordsLenSum = 0
 
-    gatherStats.dictLock.acquire()
     for word in words:
-        dictionary[word].cf += 1
+        stat = dictionary.get(word, DictionaryStat())
+        stat.cf += 1
+        dictionary[word] = stat
+
         stopWordsCount += 1 if isInStopWords(word) else 0
         latWordsCount += 1 if isLat(word) else 0
         wordsLenSum += len(word)
     for word in uniqueWords:
-        dictionary[word].df += 1
-    gatherStats.dictLock.release()
+        stat = dictionary.get(word, DictionaryStat())
+        stat.df += 1
+        dictionary[word] = stat
 
     doc.wordsCount = wordsCount
     doc.bytesCount = bytesCount
@@ -180,18 +184,27 @@ def plotWordsRank(cfTop):
     plt.savefig('wordsRank.png')
 
 
-dictionary = defaultdict(DictionaryStat)
+dictionary = None
 stopWords = readStopWords()
 
+def init(args):
+    global dictionary
+    dictionary = args
 
 def processFileBinded(i):
+    global dictionary
+    global stopWords
     return processFile(i, stopWords, dictionary)
 
 
 if __name__ == '__main__':
-    with Pool(5) as p:
+    manager = Manager()
+    dictionary = manager.dict()
+
+    with Pool(5, initializer=init, initargs=(dictionary, )) as p:
         docs = p.map(processFileBinded, range(10))
         docs = list(chain(*docs))
+    # docs = processFileBinded(0)
     graph = defaultdict(list)
     for doc in docs:
         for href in doc.hrefs:
