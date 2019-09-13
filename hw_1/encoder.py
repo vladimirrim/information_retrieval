@@ -92,14 +92,23 @@ def gatherStats(doc, s, htmlSize, stopWords, dictionary):
     wordsLenSum = 0
 
     for word in words:
+        isStopWord = isInStopWords(word)
+        stopWordsCount += 1 if isStopWord else 0
+        latWordsCount += 1 if isLat(word) else 0
+        wordsLenSum += len(word)
+
+        if isStopWord:
+            continue
+
         stat = dictionary.get(word, DictionaryStat())
         stat.cf += 1
         dictionary[word] = stat
 
-        stopWordsCount += 1 if isInStopWords(word) else 0
-        latWordsCount += 1 if isLat(word) else 0
-        wordsLenSum += len(word)
     for word in uniqueWords:
+        isStopWord = isInStopWords(word)
+        if isStopWord:
+            continue
+
         stat = dictionary.get(word, DictionaryStat())
         stat.df += 1
         dictionary[word] = stat
