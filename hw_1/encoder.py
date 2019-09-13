@@ -73,15 +73,10 @@ def getContent(contentSoup):
 
 
 def gatherStats(doc, s, htmlSize, stopWords, dictionary):
-    wordsFull = re.findall(r'\w+', s)
     m = Mystem()
-    words = np.array([])
-
-    # for w in wordsFull[:10]:
-    for w in wordsFull:
-        lemmas = np.array(m.lemmatize(w))
-        words = np.append(words, lemmas[lemmas != "\n"])
-
+    lemmas = m.lemmatize(s)
+    lemmatized_text = " ".join(lemmas)
+    words = np.array(re.findall(r'\w+', lemmatized_text))
     uniqueWords = np.unique(words)
     isInStopWords = lambda word: word in stopWords
 
