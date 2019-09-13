@@ -239,7 +239,7 @@ if __name__ == '__main__':
     print('Latin Words Rate: ' + str(np.sum([doc.latWordsCount for doc in docs])
                                      / wordsCount))
 
-    topCnt = 10
+    topCnt = 20
 
     dictItems = np.array(list([(item[0], item[1].cf, item[1].df) for item in dictionary.items()]),
                          dtype=[('word', object), ('cf', int), ('df', int)])
