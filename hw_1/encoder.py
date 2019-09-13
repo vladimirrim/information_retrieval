@@ -178,9 +178,11 @@ def write_sites_graph(graph):
 
 def plotWordsRank(cfTop):
     plt.clf()
-    x = range(len(cfTop))
-    y = [math.log2(a[1]) for a in cfTop]
+    x = [math.log10(i) for i in range(len(cfTop))]
+    y = [math.log10(stat[1]) for stat in cfTop]
     plt.plot(x, y)
+    plt.xlabel("log10(rank)")
+    plt.ylabel("log10(cf)")
     plt.savefig('wordsRank.png')
 
 
