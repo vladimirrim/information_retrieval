@@ -251,3 +251,4 @@ if __name__ == '__main__':
     writeGraphToFile(graph)
     write_sites_graph(graph)
     plotWordsRank(cfTop)
+    plotWordsRank(dictItems[cfStats][::-1])
