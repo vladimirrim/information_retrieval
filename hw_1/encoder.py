@@ -66,8 +66,18 @@ def augmentGraph(document, contentSoup, url):
             document.hrefs.append(urljoin(url, next['href']))
 
 
+def tag_visible(element):
+    if element.parent.name in ['style', 'script', 'head', 'meta', '[document]']:
+        return False
+    if isinstance(element, Comment):
+        return False
+    return True
+
+
 def getContent(contentSoup):
-    s = contentSoup.get_text(" ")
+    texts = contentSoup.findAll(text=True)
+    visible_texts = filter(tag_visible, texts)
+    s = u" ".join(t.strip() for t in visible_texts)
     s = re.sub("(<!--.*?-->)", "", s, flags=re.DOTALL)
     return re.sub("(//<!\\[CDATA.*?]>)", "", s, flags=re.DOTALL)
 
