@@ -1,0 +1,226 @@
+
+[+] General Parameters:
+Training data:	../../datasets_for_IR/task3_train_all_features.txt.shuffled
+Train-Test split: 0.8
+Feature vector representation: Dense.
+Ranking method:	AdaRank
+Feature description file:	Unspecified. All features will be used.
+Train metric:	ERR@10
+Test metric:	NDCG@20
+Highest relevance label (to compute ERR): 4
+Feature normalization: No
+Model file: adarank_train_val.txt
+
+[+] AdaRank's Parameters:
+No. of rounds: 500
+Train with 'enequeue': Yes
+Tolerance: 0.002
+Max Sel. Count: 5
+
+Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]... [Done.]            
+(7033 ranked lists, 75057 entries read)
+Initializing... [Done]
+---------------------------
+Training starts...
+--------------------------------------------------------
+#iter   | Sel. F.  | ERR@10-T  | ERR@10-V  | Status    | 
+--------------------------------------------------------
+1       | 30       | 0.2219    |           | OK        | 
+2       | 30       |           |           | ROLLBACK  | 
+3       | 140      | 0.2212    |           | OK        | 
+4       | 50       | 0.2225    |           | OK        | 
+5       | 101      | 0.2282    |           | OK        | 
+6       | 71       | 0.2299    |           | OK        | 
+7       | 71       |           |           | ROLLBACK  | 
+8       | 227      | 0.2304    |           | OK        | 
+9       | 227      |           |           | ROLLBACK  | 
+10      | 101      | 0.2289    |           | OK        | 
+11      | 101      |           |           | ROLLBACK  | 
+12      | 239      | 0.2289    |           | OK        | 
+13      | 239      |           |           | ROLLBACK  | 
+14      | 140      | 0.2278    |           | OK        | 
+15      | 113      | 0.2296    |           | OK        | 
+16      | 113      |           |           | ROLLBACK  | 
+17      | 226      | 0.2296    |           | OK        | 
+18      | 226      |           |           | ROLLBACK  | 
+19      | 140      | 0.2272    |           | OK        | 
+20      | 140      |           |           | ROLLBACK  | 
+21      | 61       | 0.2278    |           | OK        | 
+22      | 61       |           |           | ROLLBACK  | 
+23      | 122      | 0.2272    |           | OK        | 
+24      | 11       | 0.2305    |           | OK        | 
+25      | 11       |           |           | ROLLBACK  | 
+26      | 122      | 0.2271    |           | OK        | 
+27      | 122      |           |           | ROLLBACK  | 
+28      | 197      | 0.2265    |           | OK        | 
+29      | 197      |           |           | ROLLBACK  | 
+30      | 50       | 0.2271    |           | OK        | 
+31      | 50       |           |           | ROLLBACK  | 
+32      | 213      | 0.2272    |           | OK        | 
+33      | 213      |           |           | ROLLBACK  | 
+34      | 1        | 0.2272    |           | OK        | 
+35      | 1        |           |           | ROLLBACK  | 
+36      | 46       | 0.2263    |           | OK        | 
+37      | 43       | 0.228     |           | OK        | 
+38      | 43       |           |           | ROLLBACK  | 
+39      | 46       | 0.2259    |           | OK        | 
+40      | 3        | 0.2282    |           | OK        | 
+41      | 3        |           |           | ROLLBACK  | 
+42      | 33       | 0.2271    |           | OK        | 
+43      | 33       |           |           | ROLLBACK  | 
+44      | 46       | 0.2256    |           | OK        | 
+45      | 46       |           |           | ROLLBACK  | 
+46      | 34       | 0.2259    |           | OK        | 
+47      | 34       |           |           | ROLLBACK  | 
+48      | 69       | 0.2263    |           | OK        | 
+49      | 69       |           |           | ROLLBACK  | 
+50      | 230      | 0.2255    |           | OK        | 
+51      | 230      |           |           | ROLLBACK  | 
+52      | 9        | 0.2256    |           | OK        | 
+53      | 9        |           |           | ROLLBACK  | 
+54      | 180      | 0.2254    |           | OK        | 
+55      | 243      | 0.2254    |           | OK        | 
+56      | 161      | 0.2267    |           | OK        | 
+57      | 161      |           |           | ROLLBACK  | 
+58      | 243      | 0.2254    |           | OK        | 
+59      | 150      | 0.229     |           | OK        | 
+60      | 150      |           |           | ROLLBACK  | 
+61      | 82       | 0.2254    |           | OK        | 
+62      | 7        | 0.2288    |           | OK        | 
+63      | 7        |           |           | ROLLBACK  | 
+64      | 82       | 0.2254    |           | OK        | 
+65      | 129      | 0.2285    |           | OK        | 
+66      | 129      |           |           | ROLLBACK  | 
+67      | 82       | 0.2254    |           | OK        | 
+68      | 82       |           |           | ROLLBACK  | 
+69      | 243      | 0.2254    |           | OK        | 
+70      | 97       | 0.2254    |           | OK        | 
+71      | 77       | 0.2278    |           | OK        | 
+72      | 77       |           |           | ROLLBACK  | 
+73      | 154      | 0.2269    |           | OK        | 
+74      | 154      |           |           | ROLLBACK  | 
+75      | 97       | 0.2254    |           | OK        | 
+76      | 153      | 0.2266    |           | OK        | 
+77      | 153      |           |           | ROLLBACK  | 
+78      | 97       | 0.2254    |           | OK        | 
+79      | 68       | 0.2268    |           | OK        | 
+80      | 68       |           |           | ROLLBACK  | 
+81      | 121      | 0.2266    |           | OK        | 
+82      | 121      |           |           | ROLLBACK  | 
+83      | 97       | 0.2254    |           | OK        | 
+84      | 157      | 0.2264    |           | OK        | 
+85      | 56       | 0.2264    |           | OK        | 
+86      | 179      | 0.2273    |           | OK        | 
+87      | 179      |           |           | ROLLBACK  | 
+88      | 56       | 0.2254    |           | OK        | 
+89      | 157      | 0.2255    |           | OK        | 
+90      | 157      |           |           | ROLLBACK  | 
+91      | 56       | 0.2225    |           | DAMN      | 
+91      | 157      | 0.2255    |           | OK        | 
+92      | 157      | 0.2258    |           | OK        | 
+93      | 157      | 0.2259    |           | OK        | 
+94      | 157      | 0.2263    |           | OK        | 
+95      | 157      | 0.2263    |           | OK        | 
+96      | 157      | 0.2265    |           | OK        | 
+97      | 157      | 0.2266    |           | OK        | 
+98      | 181      | 0.2276    |           | OK        | 
+99      | 181      | 0.2282    |           | OK        | 
+100     | 181      | 0.2283    |           | OK        | 
+101     | 181      | 0.228     |           | OK        | 
+102     | 181      | 0.2279    |           | OK        | 
+103     | 224      | 0.2283    |           | OK        | 
+104     | 224      | 0.2286    |           | OK        | 
+105     | 224      | 0.2291    |           | OK        | 
+106     | 222      | 0.2295    |           | OK        | 
+107     | 57       | 0.2295    |           | OK        | 
+108     | 57       | 0.2294    |           | OK        | 
+109     | 57       | 0.2294    |           | OK        | 
+110     | 57       | 0.2293    |           | OK        | 
+111     | 57       | 0.2292    |           | OK        | 
+112     | 57       | 0.229     |           | OK        | 
+113     | 57       | 0.2289    |           | OK        | 
+114     | 57       | 0.2289    |           | OK        | 
+115     | 57       | 0.2289    |           | OK        | 
+116     | 162      | 0.2287    |           | OK        | 
+117     | 162      | 0.228     |           | OK        | 
+118     | 162      | 0.2271    |           | OK        | 
+119     | 162      | 0.2259    |           | OK        | 
+120     | 162      | 0.2252    |           | OK        | 
+121     | 57       | 0.2251    |           | OK        | 
+122     | 57       | 0.225     |           | OK        | 
+123     | 57       | 0.2249    |           | OK        | 
+124     | 57       | 0.2248    |           | OK        | 
+125     | 57       | 0.2247    |           | OK        | 
+126     | 57       | 0.2246    |           | OK        | 
+127     | 57       | 0.2246    |           | OK        | 
+128     | 57       | 0.2244    |           | OK        | 
+129     | 57       | 0.2244    |           | OK        | 
+130     | 119      | 0.2236    |           | OK        | 
+131     | 119      | 0.222     |           | OK        | 
+132     | 222      | 0.2228    |           | OK        | 
+133     | 222      | 0.2225    |           | OK        | 
+134     | 222      | 0.2219    |           | OK        | 
+135     | 222      | 0.2212    |           | OK        | 
+136     | 222      | 0.2208    |           | OK        | 
+137     | 93       | 0.2204    |           | OK        | 
+138     | 93       | 0.2201    |           | OK        | 
+139     | 93       | 0.2203    |           | OK        | 
+140     | 93       | 0.22      |           | OK        | 
+141     | 93       | 0.2196    |           | OK        | 
+142     | 93       | 0.2193    |           | OK        | 
+143     | 93       | 0.2189    |           | OK        | 
+144     | 93       | 0.2185    |           | OK        | 
+145     | 93       | 0.2182    |           | OK        | 
+146     | 93       | 0.218     |           | OK        | 
+147     | 93       | 0.2177    |           | OK        | 
+148     | 93       | 0.2175    |           | OK        | 
+149     | 93       | 0.2172    |           | OK        | 
+150     | 2        | 0.2175    |           | OK        | 
+151     | 2        | 0.2172    |           | OK        | 
+152     | 2        | 0.217     |           | OK        | 
+153     | 2        | 0.2166    |           | OK        | 
+154     | 2        | 0.2155    |           | OK        | 
+155     | 2        | 0.2143    |           | OK        | 
+156     | 4        | 0.2152    |           | OK        | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 2        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+157     | 1        | 0.1818    |           | DAMN      | 
+--------------------------------------------------------
+Finished sucessfully.
+ERR@10 on training data: 0.2152
+---------------------------------
+NDCG@20 on test data: 0.707
+
+Model saved to: adarank_train_val.txt

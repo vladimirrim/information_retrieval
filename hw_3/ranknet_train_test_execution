@@ -1,0 +1,135 @@
+
+[+] General Parameters:
+Training data:	../../datasets_for_IR/task3_train_all_features.txt.shuffled
+Train-Test split: 0.8
+Feature vector representation: Dense.
+Ranking method:	RankNet
+Feature description file:	Unspecified. All features will be used.
+Train metric:	ERR@10
+Test metric:	NDCG@20
+Highest relevance label (to compute ERR): 4
+Feature normalization: No
+Model file: ranknet_train_val.txt
+
+[+] RankNet's Parameters:
+No. of epochs: 100
+No. of hidden layers: 1
+No. of hidden nodes per layer: 10
+Learning rate: 5.0E-5
+
+Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]... [Done.]            
+(7033 ranked lists, 75057 entries read)
+Initializing... [Done]
+-----------------------------------------
+Training starts...
+--------------------------------------------------
+#epoch  | % mis-ordered  | ERR@10-T  | ERR@10-V  | 
+        |   pairs        |           |           | 
+--------------------------------------------------
+1       | 0.2548         | 0.1785    | 
+2       | 0.2441         | 0.1818    | 
+3       | 0.2331         | 0.1858    | 
+4       | 0.2184         | 0.1898    | 
+5       | 0.21           | 0.1947    | 
+6       | 0.2054         | 0.197     | 
+7       | 0.2024         | 0.1994    | 
+8       | 0.1999         | 0.201     | 
+9       | 0.1977         | 0.2023    | 
+10      | 0.1961         | 0.2033    | 
+11      | 0.1948         | 0.2043    | 
+12      | 0.1938         | 0.2053    | 
+13      | 0.1928         | 0.2062    | 
+14      | 0.1922         | 0.2072    | 
+15      | 0.191          | 0.207     | 
+16      | 0.1906         | 0.2071    | 
+17      | 0.19           | 0.2076    | 
+18      | 0.1897         | 0.2082    | 
+19      | 0.1893         | 0.2085    | 
+20      | 0.1889         | 0.2087    | 
+21      | 0.1887         | 0.2084    | 
+22      | 0.1884         | 0.2084    | 
+23      | 0.188          | 0.2085    | 
+24      | 0.1877         | 0.2089    | 
+25      | 0.1874         | 0.2089    | 
+26      | 0.1872         | 0.2091    | 
+27      | 0.1868         | 0.209     | 
+28      | 0.1866         | 0.209     | 
+29      | 0.1863         | 0.2094    | 
+30      | 0.1862         | 0.2094    | 
+31      | 0.1862         | 0.2095    | 
+32      | 0.1855         | 0.2098    | 
+33      | 0.1853         | 0.2103    | 
+34      | 0.1848         | 0.2106    | 
+35      | 0.1844         | 0.2109    | 
+36      | 0.1832         | 0.2118    | 
+37      | 0.1825         | 0.2125    | 
+38      | 0.1818         | 0.2133    | 
+39      | 0.1812         | 0.2139    | 
+40      | 0.1806         | 0.2147    | 
+41      | 0.1803         | 0.2149    | 
+42      | 0.1798         | 0.2156    | 
+43      | 0.1791         | 0.2162    | 
+44      | 0.1786         | 0.2165    | 
+45      | 0.1782         | 0.2173    | 
+46      | 0.1779         | 0.2179    | 
+47      | 0.1776         | 0.2181    | 
+48      | 0.1775         | 0.2182    | 
+49      | 0.177          | 0.2185    | 
+50      | 0.1769         | 0.2187    | 
+51      | 0.1768         | 0.2187    | 
+52      | 0.1766         | 0.2189    | 
+53      | 0.1763         | 0.2192    | 
+54      | 0.1761         | 0.2195    | 
+55      | 0.1761         | 0.2196    | 
+56      | 0.1759         | 0.2196    | 
+57      | 0.1756         | 0.2195    | 
+58      | 0.1754         | 0.2195    | 
+59      | 0.1753         | 0.2195    | 
+60      | 0.1751         | 0.2196    | 
+61      | 0.1749         | 0.2195    | 
+62      | 0.1749         | 0.2195    | 
+63      | 0.1748         | 0.2195    | 
+64      | 0.1746         | 0.2196    | 
+65      | 0.1746         | 0.2196    | 
+66      | 0.1747         | 0.2195    | 
+67      | 0.1746         | 0.2194    | 
+68      | 0.1746         | 0.2194    | 
+69      | 0.1746         | 0.2194    | 
+70      | 0.1746         | 0.2194    | 
+71      | 0.1746         | 0.2194    | 
+72      | 0.1745         | 0.2193    | 
+73      | 0.1745         | 0.2192    | 
+74      | 0.1745         | 0.2193    | 
+75      | 0.1745         | 0.2191    | 
+76      | 0.1745         | 0.2189    | 
+77      | 0.1745         | 0.2188    | 
+78      | 0.1745         | 0.2188    | 
+79      | 0.1744         | 0.2189    | 
+80      | 0.1744         | 0.2188    | 
+81      | 0.1743         | 0.2189    | 
+82      | 0.1743         | 0.2189    | 
+83      | 0.1743         | 0.2187    | 
+84      | 0.1743         | 0.2186    | 
+85      | 0.1742         | 0.2185    | 
+86      | 0.1743         | 0.2186    | 
+87      | 0.1742         | 0.2186    | 
+88      | 0.1742         | 0.2187    | 
+89      | 0.1742         | 0.2185    | 
+90      | 0.1742         | 0.2185    | 
+91      | 0.1742         | 0.2184    | 
+92      | 0.1742         | 0.2184    | 
+93      | 0.1742         | 0.2184    | 
+94      | 0.1743         | 0.2184    | 
+95      | 0.1744         | 0.2184    | 
+96      | 0.1744         | 0.2186    | 
+97      | 0.1744         | 0.2185    | 
+98      | 0.1745         | 0.2185    | 
+99      | 0.1745         | 0.2185    | 
+100     | 0.1744         | 0.2185    | 
+--------------------------------------------------
+Finished sucessfully.
+ERR@10 on training data: 0.2185
+---------------------------------
+NDCG@20 on test data: 0.7095
+
+Model saved to: ranknet_train_val.txt
