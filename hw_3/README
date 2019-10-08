@@ -1,0 +1,20 @@
+Все обучение CV-5
+1. Обучить point-wise, сохранить модель, получить среднее значение NDCG@20 и сохранить это в файл
+2. То же самое для pair-wise и list-wise
+3. Залить файлы и веса моделей
+
+Команды:
+
+point-wise:
+RANDOM FOREST ???
+java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -ranker 8 -kcv 5 -kcvmd models/ -kcvmn random_forest -metric2T NDCG@20 > random_forest_cv_execution
+(for train/validate: java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -tvs 0.8 -ranker 8 -metric2T NDCG@20 -save random_forest_train_val.txt > random_forest_train_val_execution)
+
+
+pair-wise:
+java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -ranker 1 -kcv 5 -kcvmd models/ -kcvmn ranknet -metric2T NDCG@20 > ranknet_cv_execution
+(for train/validate: java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -tvs 0.8 -ranker 1 -metric2T NDCG@20 -save ranknet_train_val.txt > ranknet_train_val_execution)
+
+list-wise:
+java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -ranker 3 -kcv 5 -kcvmd models/ -kcvmn adarank -metric2T NDCG@20 > adarank_cv_execution
+(for train/validate: java -jar RankLib-2.1-patched.jar -train task3_train_all_features.txt.shuffled -tvs 0.8 -ranker 3 -metric2T NDCG@20 -save adarank_train_val.txt > adarank_train_val_execution)
