@@ -1,0 +1,9 @@
+
+[+] General Parameters:
+Model file:	random_forest_train_val_generated_features.txt
+Feature normalization: No
+Test metric:	NDCG@100
+Model:		Random Forests
+Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]... [Done.]            
+(482 ranked lists, 21753 entries read)
+NDCG@100 on test data: 0.6348

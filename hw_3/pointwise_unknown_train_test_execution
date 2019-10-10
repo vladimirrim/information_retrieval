@@ -1,30 +1,0 @@
-
-[+] General Parameters:
-Training data:	../../datasets_for_IR/task3_train_all_features.txt.shuffled
-Train-Test split: 0.8
-Feature vector representation: Dense.
-Ranking method:	Linear Regression
-Feature description file:	Unspecified. All features will be used.
-Train metric:	ERR@10
-Test metric:	NDCG@20
-Highest relevance label (to compute ERR): 4
-Feature normalization: No
-Model file: pointwise_unknown_train_test.txt
-
-[+] Linear Regression's Parameters:
-L2-norm regularization: lambda = 1.0E-10
-
-Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]: 0... Reading feature file [../../datasets_for_IR/task3_train_all_features.txt.shuffled]... [Done.]            
-(7033 ranked lists, 75057 entries read)
-Initializing... [Done]
---------------------------------
-Training starts...
---------------------------------
-Learning the least square model... [Done]
----------------------------------
-Finished sucessfully.
-ERR@10 on training data: 0.2143
----------------------------------
-NDCG@20 on test data: 0.7034
-
-Model saved to: pointwise_unknown_train_test.txt

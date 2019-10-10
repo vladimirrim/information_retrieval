@@ -1,0 +1,30 @@
+
+[+] General Parameters:
+Training data:	train_generated_features.txt.shuffled
+Train-Validation split: 0.8
+Feature vector representation: Dense.
+Ranking method:	Linear Regression
+Feature description file:	Unspecified. All features will be used.
+Train metric:	ERR@10
+Test metric:	NDCG@20
+Highest relevance label (to compute ERR): 4
+Feature normalization: zscore
+Model file: linear_regression_train_val_generated_features_norm.txt
+
+[+] Linear Regression's Parameters:
+L2-norm regularization: lambda = 1.0E-10
+
+Reading feature file [train_generated_features.txt.shuffled]: 0... Reading feature file [train_generated_features.txt.shuffled]: 0... Reading feature file [train_generated_features.txt.shuffled]: 0... Reading feature file [train_generated_features.txt.shuffled]: 0... Reading feature file [train_generated_features.txt.shuffled]... [Done.]            
+(498 ranked lists, 30225 entries read)
+Initializing... [Done]
+--------------------------------
+Training starts...
+--------------------------------
+Learning the least square model... [Done]
+---------------------------------
+Finished sucessfully.
+ERR@10 on training data: 0.0451
+ERR@10 on validation data: 0.0443
+---------------------------------
+
+Model saved to: linear_regression_train_val_generated_features_norm.txt
