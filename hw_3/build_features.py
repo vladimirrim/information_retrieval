@@ -16,13 +16,13 @@ def get_doc_id_to_url():
     with open(docs_id_url_file_name) as docs_id_url_file:
         for line in tqdm(docs_id_url_file):
             tokens = line.split(" ")
-            id_to_url[tokens[0]] = tokens[1]
+            id_to_url[tokens[0] + ".json"] = tokens[1]
 
     return id_to_url
 
 
 def get_all_docs_for_train():
-    docs_dir = "../../lemmatized_titles_pr_len"
+    docs_dir = "../lemmatized_titles_pr_len"
     print("Getting doc id to url...")
     id_to_url = get_doc_id_to_url()
     all_docs = defaultdict(dict)
@@ -31,11 +31,10 @@ def get_all_docs_for_train():
     for _, _, files in os.walk(docs_dir):
         for doc_filename in tqdm(files):
             try:
-                with open(docs_dir + "/" + doc_filename, encoding='utf-8') as doc_file:
+                with open(docs_dir + "/" + doc_filename) as doc_file:
                     doc_id = doc_filename[4:]
                     doc_url = id_to_url[doc_id]
                     doc = json.load(doc_file)
-
                     doc_dict = defaultdict(str)
                     doc_dict["id"] = doc_id
                     doc_dict["url"] = doc_url
@@ -48,19 +47,19 @@ def get_all_docs_for_train():
                     all_docs[doc_url] = doc_dict
             except Exception as e:
                 print(e)
-
+    print(len(all_docs.items()))
     return all_docs
 
 
 def get_all_docs_for_test():
-    docs_dir = "../../lemmatized_titles_pr_len"
+    docs_dir = "../lemmatized_titles_pr_len"
     id_to_url = get_doc_id_to_url()
     all_docs = defaultdict(dict)
 
     for _, _, files in os.walk(docs_dir):
         for doc_filename in tqdm(files):
             try:
-                with open(docs_dir + "/" + doc_filename, encoding='utf-8') as doc_file:
+                with open(docs_dir + "/" + doc_filename) as doc_file:
                     doc_id = doc_filename[4:]
                     doc_url = id_to_url[doc_id]
                     doc = json.load(doc_file)
@@ -77,7 +76,6 @@ def get_all_docs_for_test():
                     all_docs[doc_id] = doc_dict
             except Exception as e:
                 print(e)
-
     return all_docs
 
 
@@ -85,7 +83,7 @@ def get_all_queries():
     queries_filename = "./web2008_adhoc.xml"
     all_queries = defaultdict(tuple)
 
-    with open(queries_filename) as queries_file:
+    with open(queries_filename, encoding='cp1251') as queries_file:
         xml_dict = xmltodict.parse(queries_file.read())
         for task in tqdm(xml_dict['task-set']['task']):
             all_queries[task['@id']] = (task['@id'][3:], task['querytext'])
@@ -139,10 +137,11 @@ def get_test_query_doc_pairs():
                 query = all_queries[query_id]
 
                 for doc_dict in query_dict['document']:
-                    doc_id = doc_dict['@id']
+                    doc_id = doc_dict['@id'] + ".json"
                     relevance_str = doc_dict['@relevance']
                     relevance = 1 if relevance_str == "vital" else 0
                     doc = all_docs[doc_id]
+                    print(doc)
                     query_doc_pairs.append((query, doc, relevance))
             except Exception as e:
                 print(e)
@@ -179,8 +178,9 @@ def build_features():
                     out_file.write(str(i) + ":" + str(feature) + " ")
                 out_file.write("\n")
             except Exception as e:
-                print("Exception: ")
-                print(e)
+                continue
+               #print("Exception: ")
+              # print(e)
 
 
 def main():
