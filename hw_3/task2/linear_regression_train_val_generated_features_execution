@@ -1,0 +1,30 @@
+
+[+] General Parameters:
+Training data:	train_generated_features.txt
+Train-Validation split: 0.8
+Feature vector representation: Dense.
+Ranking method:	Linear Regression
+Feature description file:	Unspecified. All features will be used.
+Train metric:	ERR@10
+Test metric:	ERR@10
+Highest relevance label (to compute ERR): 4
+Feature normalization: No
+Model file: linear_regression_train_val_generated_features.txt
+
+[+] Linear Regression's Parameters:
+L2-norm regularization: lambda = 1.0E-10
+
+Reading feature file [train_generated_features.txt]: 0... Reading feature file [train_generated_features.txt]: 0... Reading feature file [train_generated_features.txt]: 0... Reading feature file [train_generated_features.txt]: 0... Reading feature file [train_generated_features.txt]... [Done.]            
+(499 ranked lists, 37593 entries read)
+Initializing... [Done]
+--------------------------------
+Training starts...
+--------------------------------
+Learning the least square model... [Done]
+---------------------------------
+Finished sucessfully.
+ERR@10 on training data: 0.0688
+ERR@10 on validation data: 0.0645
+---------------------------------
+
+Model saved to: linear_regression_train_val_generated_features.txt

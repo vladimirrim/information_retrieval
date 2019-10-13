@@ -1,0 +1,9 @@
+
+[+] General Parameters:
+Model file:	ranknet_train_val_generated_features.txt
+Feature normalization: No
+Test metric:	NDCG@20
+Model:		RankNet
+Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]: 0... Reading feature file [test_generated_features_elastic.txt]... [Done.]            
+(526 ranked lists, 37012 entries read)
+NDCG@20 on test data: 0.3611
