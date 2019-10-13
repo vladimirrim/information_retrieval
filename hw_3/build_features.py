@@ -24,8 +24,8 @@ def get_doc_id_to_url():
     return id_to_url, url_to_id
 
 
-def get_all_docs_for_train():
-    docs_dir = "../lemmatized_titles_pr_len"
+def get_all_docs():
+    docs_dir = "../../lemmatized_titles_pr_len"
     print("Getting doc id to url...")
     id_to_url, _ = get_doc_id_to_url()
     all_docs = defaultdict(lambda: defaultdict(str))
@@ -47,38 +47,10 @@ def get_all_docs_for_train():
                     doc_dict["doclen"] = doc["doclen"]
                     doc_dict["content"] = doc["content"]
 
-                    all_docs[doc_url] = doc_dict
-            except Exception as e:
-                print(e)
-    print(len(all_docs.items()))
-    return all_docs
-
-
-def get_all_docs_for_test():
-    docs_dir = "../lemmatized_titles_pr_len"
-    id_to_url, _ = get_doc_id_to_url()
-    all_docs = defaultdict(lambda: defaultdict(str))
-
-    for _, _, files in os.walk(docs_dir):
-        for doc_filename in tqdm(files):
-            try:
-                with open(docs_dir + "/" + doc_filename) as doc_file:
-                    doc_id = doc_filename[4:-5]
-                    doc_url = id_to_url[doc_id]
-                    doc = json.load(doc_file)
-
-                    doc_dict = defaultdict(str)
-                    doc_dict["id"] = doc_id
-                    doc_dict["url"] = doc_url
-                    doc_dict["title"] = doc["title"]
-                    doc_dict["pagerank"] = doc["pagerank"]
-                    doc_dict["urllen"] = doc["urllen"]
-                    doc_dict["doclen"] = doc["doclen"]
-                    doc_dict["content"] = doc["content"]
-
                     all_docs[doc_id] = doc_dict
             except Exception as e:
                 print(e)
+    print(len(all_docs.items()))
     return all_docs
 
 
@@ -106,14 +78,10 @@ def get_all_bm25(bm25_filename):
     return all_bm25
 
 
-def get_train_query_doc_pairs():
+def get_train_query_doc_pairs(all_docs, all_queries):
     relevant_table_filename = "./or_relevant-minus_table.xml"
     train_bm25_filename = "./train_bm25_feature.pkl"
 
-    print("Getting all docs...")
-    all_docs = get_all_docs_for_train()
-    print("Getting all queries...")
-    all_queries = get_all_queries()
     print("Getting all bm25...")
     all_bm25 = get_all_bm25(train_bm25_filename)
     print("Getting doc id to url...")
@@ -131,12 +99,12 @@ def get_train_query_doc_pairs():
                 query = all_queries[query_id]
 
                 for doc_dict in query_dict['document']:
-                    doc_url = doc_dict['@id']
+                    doc_url = doc_dict['@id'].lower()
                     relevance_str = doc_dict['@relevance']
                     relevance = 1 if relevance_str == "vital" else 0
                     doc_id = url_to_id[doc_url]
                     bm25 = all_bm25[query_id][doc_id]
-                    doc = all_docs[doc_url]
+                    doc = all_docs[doc_id]
                     query_doc_pairs.append((query, doc, relevance, bm25))
             except Exception as e:
                 print(e)
@@ -144,12 +112,10 @@ def get_train_query_doc_pairs():
     return query_doc_pairs
 
 
-def get_test_query_doc_pairs():
+def get_test_query_doc_pairs(all_docs, all_queries):
     relevant_table_filename = "./relevant_table_2009.xml"
     test_bm25_filename = "./test_bm25_feature.pkl"
 
-    all_docs = get_all_docs_for_test()
-    all_queries = get_all_queries()
     all_bm25 = get_all_bm25(test_bm25_filename)
 
     query_doc_relevance = defaultdict(lambda: defaultdict(int))
@@ -161,14 +127,11 @@ def get_test_query_doc_pairs():
         for query_dict in tqdm(xml_dict['taskDocumentMatrix']['task']):
             try:
                 query_id = query_dict['@id'][3:]
-                query = all_queries[query_id]
 
                 for doc_dict in query_dict['document']:
                     doc_id = doc_dict['@id']
                     relevance_str = doc_dict['@relevance']
                     relevance = 1 if relevance_str == "vital" else 0
-                    doc = all_docs[doc_id]
-
                     query_doc_relevance[query_id][doc_id] = relevance
             except Exception as e:
                 print(e)
@@ -187,15 +150,14 @@ def get_test_query_doc_pairs():
     return query_doc_pairs
 
 
-def build_features():
+def build_features(dataset_type, all_docs, all_queries):
     query_doc_pairs = []
 
     print("Getting query doc pairs...")
-    dataset_type = sys.argv[1]
     if dataset_type == "train":
-        query_doc_pairs = get_train_query_doc_pairs()
+        query_doc_pairs = get_train_query_doc_pairs(all_docs, all_queries)
     elif dataset_type == "test":
-        query_doc_pairs = get_test_query_doc_pairs()
+        query_doc_pairs = get_test_query_doc_pairs(all_docs, all_queries)
 
     out_filename = dataset_type + "_generated_features.txt"
 
@@ -206,8 +168,6 @@ def build_features():
                     continue
 
                 features = []
-                # calculate new_feature_value
-                # features.append(new_feature_value)
                 features.append(len(query[1]))
                 features.append(doc["urllen"])
                 features.append(doc["doclen"])
@@ -226,8 +186,15 @@ def build_features():
 
 
 def main():
+    print("Getting all docs...")
+    all_docs = get_all_docs()
+
+    print("Getting all queries...")
+    all_queries = get_all_queries()
+
     print("Building features...")
-    build_features()
+    build_features("train", all_docs, all_queries)
+    build_features("test", all_docs, all_queries)
 
 
 if __name__ == "__main__":
